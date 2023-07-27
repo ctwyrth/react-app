@@ -1,18 +1,25 @@
 import { useState } from "react";
 
-import logo from './logo.svg';
+// import logo from './logo.svg';
 import './App.css';
 
 function App() {
-  const [emotion, setEmotion] = useState("happy");
-  console.log(emotion);
+  const [title, setTitle] = useState("");
+  const [color, setColor] = useState("#ff0000");
+
+  const submit = (e) => {
+    e.preventDefault();
+    alert(`${title}, ${color}`);
+    setTitle("");
+    setColor("#ff0000");
+  };
 
   return (
-    <div className="App">
-      <h1>Hello from {emotion}!</h1>
-      <button onClick={() => setEmotion(emotion != "sad" ? "sad" : "happy")}>{emotion != "sad" ? "Sad" : "Happy"}</button>
-      <button onClick={() => setEmotion(emotion != "excited" ? "excited" : "happy")}>{emotion != "excited" ? "Excited" : "Happy"}</button>
-    </div>
+    <form action="/" onSubmit={submit}>
+      <input type="text" placeholder="color title..." value={title} onChange={(e) => setTitle(e.target.value)} />
+      <input type="color" name="color" id="color" value={color} onChange={(e) => setColor(e.target.value)} />
+      <button>ADD</button>
+    </form>
   );
 }
 
