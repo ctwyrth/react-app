@@ -1,26 +1,34 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 // import logo from './logo.svg';
 import './App.css';
 
-function App() {
-  const [title, setTitle] = useState("");
-  const [color, setColor] = useState("#ff0000");
-
-  const submit = (e) => {
-    e.preventDefault();
-    alert(`${title}, ${color}`);
-    setTitle("");
-    setColor("#ff0000");
-  };
-
+function GithubUser({ name, location, avatar }) {
   return (
-    <form action="/" onSubmit={submit}>
-      <input type="text" placeholder="color title..." value={title} onChange={(e) => setTitle(e.target.value)} />
-      <input type="color" name="color" id="color" value={color} onChange={(e) => setColor(e.target.value)} />
-      <button>ADD</button>
-    </form>
+    <>
+      <h1>{name}</h1>
+      <h3>{location}</h3>
+      <img src={avatar} alt={name} height={150} />
+    </>
   );
+};
+
+function App() {
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    fetch(`https://api.github.com/users/moonhighway`)
+      .then(res => res.json())
+      .then(setData);
+  }, []);
+
+  if (data) {
+    return (
+      <GithubUser name={data.name} location={data.location} avatar={data.avatar_url} />
+    )
+  }
+
+  return <h1>Data</h1>;
 }
 
 export default App;
